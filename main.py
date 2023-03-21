@@ -7,8 +7,8 @@ headers = {'User-Agent':'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.2 (KHTML, 
 page = requests.get(url, headers=headers)
 print(page.status_code)
 
-filteredNews = []
-allNews = []
+filteredVacancies = []
+allVacancies = []
 i = int(2)
 book = openpyxl.Workbook()
 sheet = book.active
@@ -16,12 +16,12 @@ sheet['A1'] = 'Вакансия программиста/зарплата'
 
 soup = BeautifulSoup(page.text, "html.parser")
 
-allNews = soup.find_all('div', class_='')
+allVacancies = soup.find_all('div', class_='')
 
-for data in allNews:
+for data in allVacancies:
     if (data.find('a', class_='serp-item__title')) is not None:
-        filteredNews.append(data.text)
-for data in filteredNews:
+        filteredVacancies.append(data.text)
+for data in filteredVacancies:
     sheet['A' + str(i)] = data
     i += 1
 
