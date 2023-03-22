@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
 import requests
-import openpyxl
+import SaveToExcel
 
 
 def parse():
@@ -11,10 +11,6 @@ def parse():
 
     filteredVacancies = []
     allVacancies = []
-    i = int(2)
-    book = openpyxl.Workbook()
-    sheet = book.active
-    sheet['A1'] = 'Вакансия программиста/зарплата'
 
     soup = BeautifulSoup(page.text, "html.parser")
 
@@ -23,10 +19,4 @@ def parse():
     for data in allVacancies:
         if (data.find('a', class_='serp-item__title')) is not None:
             filteredVacancies.append(data.text)
-    for data in filteredVacancies:
-        if i >= 6:
-            sheet['A' + str(i - 4)] = data
-        i += 1
-
-    book.save('res.xlsx')
-    book.close()
+    SaveToExcel.saveToExcel(data, filteredVacancies)
